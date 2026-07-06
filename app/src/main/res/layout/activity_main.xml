@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/aqua_bg"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp">
+
+    <TextView
+        android:id="@+id/txtTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/aqua_primary"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/txtEstado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buscando"
+        android:textColor="@color/aqua_text"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/txtNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/aqua_text"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txtIp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/aqua_text"
+        android:textSize="14sp"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAbrirPanel"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/abrir_panel"
+        android:textSize="16sp"
+        app:backgroundTint="@color/aqua_primary"
+        android:visibility="gone"
+        android:layout_marginBottom="12dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnConectarAP"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="@string/conectar_ap"
+        android:textSize="14sp"
+        app:backgroundTint="@color/aqua_accent"
+        android:visibility="gone"
+        android:layout_marginBottom="12dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCambiarWifi"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/cambiar_wifi"
+        android:textSize="14sp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:visibility="gone"
+        android:layout_marginBottom="8dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBuscar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/buscar_de_nuevo"
+        android:textSize="14sp"
+        style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+</LinearLayout>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AquaSmart</string>
+    <string name="buscando">Buscando dispositivo…</string>
+    <string name="encontrado">Dispositivo conectado</string>
+    <string name="no_encontrado">No se encontró ningún AquaSmart en tu red</string>
+    <string name="abrir_panel">Abrir Panel</string>
+    <string name="cambiar_wifi">Cambiar WiFi</string>
+    <string name="buscar_de_nuevo">Buscar nuevamente</string>
+    <string name="conectar_ap">Conectar a la red del dispositivo</string>
+</resources>

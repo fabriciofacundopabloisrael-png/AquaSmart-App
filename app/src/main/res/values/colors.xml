@@ -1,0 +1,10 @@
+<resources>
+    <color name="aqua_primary">#0B7285</color>
+    <color name="aqua_primary_dark">#075363</color>
+    <color name="aqua_accent">#22C3E6</color>
+    <color name="aqua_bg">#F2FBFC</color>
+    <color name="aqua_ok">#2E9E4B</color>
+    <color name="aqua_error">#D64545</color>
+    <color name="aqua_text">#123B44</color>
+    <color name="white">#FFFFFF</color>
+</resources>
