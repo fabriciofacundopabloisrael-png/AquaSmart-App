@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AquaSmart — Monitoreo inteligente del consumo de agua</title>
+<meta name="description" content="AquaSmart: monitorea, predice y controla el consumo de agua de tu hogar en tiempo real con ESP32 y una app Android.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ CURSOR GLOW / PROGRESS ============ -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ============ NAVBAR ============ -->
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-drop"><i class="fa-solid fa-droplet"></i></span>
+      <span class="brand-text">Aqua<strong>Smart</strong></span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#que-es" data-i18n="nav.about">Proyecto</a>
+      <a href="#caracteristicas" data-i18n="nav.features">Características</a>
+      <a href="#como-funciona" data-i18n="nav.how">Cómo funciona</a>
+      <a href="#capturas" data-i18n="nav.gallery">Capturas</a>
+      <a href="#descargas" data-i18n="nav.downloads">Descargas</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="icon-btn" id="langToggle" aria-label="Cambiar idioma" title="ES / EN">
+        <span id="langLabel">ES</span>
+      </button>
+      <button class="icon-btn" id="themeToggle" aria-label="Cambiar tema">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <a href="#apk-hero" class="btn btn-primary btn-sm" data-i18n="nav.cta">
+        <i class="fa-solid fa-download"></i> APK
+      </a>
+      <button class="burger" id="burger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <canvas id="waveCanvas"></canvas>
+    <div class="hero-glow hero-glow--1"></div>
+    <div class="hero-glow hero-glow--2"></div>
+
+    <div class="hero-content">
+      <span class="eyebrow" data-i18n="hero.eyebrow"><i class="fa-solid fa-microchip"></i> ESP32 · IoT · Android</span>
+      <h1 class="hero-title">
+        Aqua<span class="text-gradient">Smart</span>
+      </h1>
+      <p class="hero-subtitle" data-i18n="hero.subtitle">Monitoreo inteligente del consumo de agua</p>
+      <p class="hero-desc" data-i18n="hero.desc">
+        Convierte cualquier tubería en un sistema conectado: mide en tiempo real, predice tu consumo,
+        detecta fugas y cuida tu bolsillo — todo desde tu teléfono.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#apk-hero" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-download"></i>
+          <span data-i18n="hero.btn1">Descargar APK</span>
+        </a>
+        <a href="https://github.com/fabriciofacundopabloisrael-png/AquaSmart-App" target="_blank" rel="noopener" class="btn btn-ghost btn-lg">
+          <i class="fa-brands fa-github"></i>
+          <span data-i18n="hero.btn2">Ver en GitHub</span>
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number" data-count="30">0</span><span class="stat-suffix">%</span>
+          <span class="stat-label" data-i18n="hero.stat1">ahorro potencial de agua</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number" data-count="24">0</span><span class="stat-suffix">/7</span>
+          <span class="stat-label" data-i18n="hero.stat2">monitoreo continuo</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number" data-count="100">0</span><span class="stat-suffix">%</span>
+          <span class="stat-label" data-i18n="hero.stat3">código abierto</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="#apk-hero" class="scroll-cue" aria-label="Bajar">
+      <i class="fa-solid fa-chevron-down"></i>
+    </a>
+  </section>
+
+  <!-- ============ APK HERO BLOCK (destacado, primera función) ============ -->
+  <section class="apk-hero" id="apk-hero">
+    <div class="apk-card glass reveal">
+      <div class="apk-card-icon">
+        <i class="fa-brands fa-android"></i>
+      </div>
+      <div class="apk-card-text">
+        <h2 data-i18n="apkhero.title">Descarga AquaSmart</h2>
+        <p data-i18n="apkhero.desc">
+          Conéctate fácilmente a tu dispositivo AquaSmart desde tu teléfono Android.
+          Sin cuentas, sin nube: la app habla directo con tu ESP32.
+        </p>
+        <ul class="apk-card-list">
+          <li><i class="fa-solid fa-check"></i> <span data-i18n="apkhero.li1">Detección automática del dispositivo en tu red</span></li>
+          <li><i class="fa-solid fa-check"></i> <span data-i18n="apkhero.li2">Panel completo dentro de la app</span></li>
+          <li><i class="fa-solid fa-check"></i> <span data-i18n="apkhero.li3">Compatible con Android 8.0 o superior</span></li>
+        </ul>
+      </div>
+      <div class="apk-card-cta">
+        <a href="descargas/AquaSmart.apk" download class="btn btn-primary btn-lg btn-glow">
+          <i class="fa-solid fa-download"></i>
+          <span data-i18n="apkhero.btn">Descargar APK</span>
+        </a>
+        <span class="apk-meta" data-i18n="apkhero.meta">v1.0 · ~6 MB · APK directo</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUE ES AQUASMART ============ -->
+  <section class="section" id="que-es">
+    <div class="section-inner grid-2">
+      <div class="reveal">
+        <span class="tag" data-i18n="about.tag">El proyecto</span>
+        <h2 class="section-title" data-i18n="about.title">¿Qué es AquaSmart?</h2>
+        <p class="section-text" data-i18n="about.p1">
+          AquaSmart es un sistema de monitoreo de agua construido sobre un microcontrolador ESP32,
+          pensado para instalarse en la tubería principal de una vivienda. Mide el flujo en tiempo
+          real, lo transforma en datos útiles y los entrega a través de una red WiFi propia o de casa.
+        </p>
+        <p class="section-text" data-i18n="about.p2">
+          Todo eso se sirve como un panel web ligero alojado en el propio ESP32, y la app Android
+          actúa como puente inteligente: encuentra el dispositivo en la red y muestra ese panel a
+          pantalla completa, como si fuera una pantalla nativa más.
+        </p>
+      </div>
+
+      <div class="about-illustration reveal">
+        <svg viewBox="0 0 420 360" class="illus-svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="gradChip" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#2196F3"/>
+              <stop offset="1" stop-color="#00BCD4"/>
+            </linearGradient>
+            <linearGradient id="gradDrop" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#00E5C4"/>
+              <stop offset="1" stop-color="#2196F3"/>
+            </linearGradient>
+          </defs>
+
+          <circle cx="210" cy="180" r="150" fill="url(#gradChip)" opacity="0.08"/>
+          <circle cx="210" cy="180" r="105" fill="url(#gradChip)" opacity="0.10"/>
+
+          <!-- ESP32 chip -->
+          <g class="illus-chip">
+            <rect x="140" y="140" width="140" height="100" rx="14" fill="url(#gradChip)"/>
+            <rect x="158" y="158" width="104" height="64" rx="6" fill="#0B1220" opacity="0.35"/>
+            <g stroke="url(#gradChip)" stroke-width="4" stroke-linecap="round">
+              <line x1="140" y1="160" x2="118" y2="160"/>
+              <line x1="140" y1="180" x2="118" y2="180"/>
+              <line x1="140" y1="200" x2="118" y2="200"/>
+              <line x1="140" y1="220" x2="118" y2="220"/>
+              <line x1="280" y1="160" x2="302" y2="160"/>
+              <line x1="280" y1="180" x2="302" y2="180"/>
+              <line x1="280" y1="200" x2="302" y2="200"/>
+              <line x1="280" y1="220" x2="302" y2="220"/>
+            </g>
+          </g>
+
+          <!-- signal waves -->
+          <g class="illus-signal" stroke="#00BCD4" stroke-width="3" fill="none" opacity="0.8">
+            <path d="M210 120 Q 210 95 235 90"/>
+            <path d="M210 120 Q 210 80 255 68"/>
+            <path d="M210 120 Q 210 65 275 46"/>
+          </g>
+
+          <!-- water drop -->
+          <g class="illus-drop">
+            <path d="M300 250 C300 230 322 205 322 205 C322 205 344 230 344 250 C344 264 334 274 322 274 C310 274 300 264 300 250 Z" fill="url(#gradDrop)"/>
+            <ellipse cx="315" cy="248" rx="5" ry="8" fill="#ffffff" opacity="0.55"/>
+          </g>
+
+          <g class="illus-drop illus-drop--sm">
+            <path d="M92 96 C92 84 106 68 106 68 C106 68 120 84 120 96 C120 104 114 110 106 110 C98 110 92 104 92 96 Z" fill="url(#gradDrop)" opacity="0.85"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CARACTERISTICAS ============ -->
+  <section class="section section-alt" id="caracteristicas">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="tag" data-i18n="features.tag">Funciones</span>
+        <h2 class="section-title" data-i18n="features.title">Todo lo que AquaSmart controla por ti</h2>
+      </div>
+
+      <div class="features-grid">
+        <article class="feature-card glass reveal">
+          <div class="feature-icon"><i class="fa-solid fa-gauge-high"></i></div>
+          <h3 data-i18n="f1.t">Medición en tiempo real</h3>
+          <p data-i18n="f1.p">Caudal y consumo instantáneo, actualizados segundo a segundo.</p>
+        </article>
+        <article class="feature-card glass reveal">
+          <div class="feature-icon"><i class="fa-solid fa-calendar-day"></i></div>
+          <h3 data-i18n="f2.t">Consumo diario</h3>
+          <p data-i18n="f2.p">Resumen claro de cuánta agua se usó cada día en tu hogar.</p>
+        </article>
+        <article class="feature-card glass reveal">
+          <div class="feature-icon"><i class="fa-solid fa-chart-column"></i></div>
+          <h3 data-i18n="f3.t">Historial mensual</h3>
+          <p data-i18n="f3.p">Tendencias mes a mes para entender tus hábitos de consumo.</p>
+        </article>
+        <article class="feature-card glass reveal">
+          <div class="feature-icon"><i class="fa-solid fa-wave-square"></i></div>
+          <h3 data-i18n="f4.t">Predicción de consumo</h3>
+          <p data-i18n="f4.p">Estimaciones a futuro basadas en tu comportamiento real.</p>
+        </article>
+        <article class="feature-card glass reveal">
+          <div class="feature-icon"><i class="fa-solid fa-coins"></i></div>
+          <h3 data-i18n="f5.t">Cálculo del costo</h3>
+          <p data-i18n="f5.p">Convierte litros en dinero según la tarifa de tu localidad.</p>
+        </article>
+        <article class="feature-card glass reveal">
+          <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+          <h3 data-i18n="f6.t">Alertas inteligentes</h3>
+          <p data-i18n="f6.p">Avisos cuando el consumo se sale de lo habitual.</p>
+        </article>
+        <article class="feature-card glass reveal">
+          <div class="feature-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <h3 data-i18n="f7.t">Detección de fugas</h3>
+          <p data-i18n="f7.p">Identifica consumo continuo anómalo típico de una fuga.</p>
+        </article>
+        <article class="feature-card glass reveal">
+          <div class="feature-icon"><i class="fa-solid fa-globe"></i></div>
+          <h3 data-i18n="f8.t">Panel web integrado</h3>
+          <p data-i18n="f8.p">Todo el dashboard vive dentro del propio ESP32.</p>
+        </article>
+        <article class="feature-card glass reveal">
+          <div class="feature-icon"><i class="fa-brands fa-android"></i></div>
+          <h3 data-i18n="f9.t">Aplicación Android</h3>
+          <p data-i18n="f9.p">Puente nativo que encuentra tu ESP32 y muestra su panel.</p>
+        </article>
+        <article class="feature-card glass reveal">
+          <div class="feature-icon"><i class="fa-solid fa-wifi"></i></div>
+          <h3 data-i18n="f10.t">Configuración WiFi</h3>
+          <p data-i18n="f10.p">Conecta el dispositivo a tu red de casa en un par de pasos.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMO FUNCIONA ============ -->
+  <section class="section" id="como-funciona">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="tag" data-i18n="how.tag">Arquitectura</span>
+        <h2 class="section-title" data-i18n="how.title">Cómo funciona AquaSmart</h2>
+        <p class="section-text" data-i18n="how.desc">Del sensor a tu mano, en seis pasos.</p>
+      </div>
+
+      <div class="flow" id="flow">
+        <svg class="flow-line" viewBox="0 0 100 600" preserveAspectRatio="none" aria-hidden="true">
+          <path id="flowPath" d="M50 20 L50 580" stroke="url(#flowGrad)" stroke-width="2" fill="none" stroke-dasharray="6 8"/>
+          <defs>
+            <linearGradient id="flowGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#2196F3"/>
+              <stop offset="1" stop-color="#00BCD4"/>
+            </linearGradient>
+          </defs>
+          <circle id="flowDot" r="4" fill="#00E5C4"/>
+        </svg>
+
+        <div class="flow-step reveal">
+          <div class="flow-icon"><i class="fa-solid fa-satellite-dish"></i></div>
+          <div class="flow-text"><h3 data-i18n="flow1.t">Sensor de flujo</h3><p data-i18n="flow1.p">Registra cada pulso de agua que pasa por la tubería.</p></div>
+        </div>
+        <div class="flow-step reveal">
+          <div class="flow-icon"><i class="fa-solid fa-microchip"></i></div>
+          <div class="flow-text"><h3 data-i18n="flow2.t">ESP32</h3><p data-i18n="flow2.p">Procesa los pulsos y los convierte en litros y caudal.</p></div>
+        </div>
+        <div class="flow-step reveal">
+          <div class="flow-icon"><i class="fa-solid fa-wifi"></i></div>
+          <div class="flow-text"><h3 data-i18n="flow3.t">WiFi</h3><p data-i18n="flow3.p">Publica los datos en tu red doméstica o su propia red AP.</p></div>
+        </div>
+        <div class="flow-step reveal">
+          <div class="flow-icon"><i class="fa-solid fa-server"></i></div>
+          <div class="flow-text"><h3 data-i18n="flow4.t">Servidor web</h3><p data-i18n="flow4.p">Un panel completo servido directamente desde el propio chip.</p></div>
+        </div>
+        <div class="flow-step reveal">
+          <div class="flow-icon"><i class="fa-brands fa-android"></i></div>
+          <div class="flow-text"><h3 data-i18n="flow5.t">Aplicación Android</h3><p data-i18n="flow5.p">Encuentra el ESP32 y muestra su panel a pantalla completa.</p></div>
+        </div>
+        <div class="flow-step reveal">
+          <div class="flow-icon"><i class="fa-solid fa-user"></i></div>
+          <div class="flow-text"><h3 data-i18n="flow6.t">Usuario</h3><p data-i18n="flow6.p">Ve, entiende y controla su consumo desde el teléfono.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CAPTURAS ============ -->
+  <section class="section section-alt" id="capturas">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="tag" data-i18n="gallery.tag">Vista previa</span>
+        <h2 class="section-title" data-i18n="gallery.title">La app en acción</h2>
+      </div>
+
+      <div class="carousel reveal">
+        <button class="carousel-btn carousel-btn--prev" id="prevSlide" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
+
+        <div class="carousel-track-wrap">
+          <div class="carousel-track" id="carouselTrack">
+            <div class="phone-slide">
+              <div class="phone-mock">
+                <div class="phone-screen screen-1">
+                  <i class="fa-solid fa-gauge-high"></i>
+                  <span data-i18n="shot1">Panel en tiempo real</span>
+                </div>
+              </div>
+            </div>
+            <div class="phone-slide">
+              <div class="phone-mock">
+                <div class="phone-screen screen-2">
+                  <i class="fa-solid fa-chart-column"></i>
+                  <span data-i18n="shot2">Historial y tendencias</span>
+                </div>
+              </div>
+            </div>
+            <div class="phone-slide">
+              <div class="phone-mock">
+                <div class="phone-screen screen-3">
+                  <i class="fa-solid fa-bell"></i>
+                  <span data-i18n="shot3">Alertas de consumo</span>
+                </div>
+              </div>
+            </div>
+            <div class="phone-slide">
+              <div class="phone-mock">
+                <div class="phone-screen screen-4">
+                  <i class="fa-solid fa-wifi"></i>
+                  <span data-i18n="shot4">Configuración WiFi</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-btn carousel-btn--next" id="nextSlide" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+
+      <div class="carousel-dots" id="carouselDots"></div>
+      <p class="carousel-note" data-i18n="gallery.note">*Capturas ilustrativas — se actualizarán con imágenes reales de la app.</p>
+    </div>
+  </section>
+
+  <!-- ============ DESCARGAS ============ -->
+  <section class="section" id="descargas">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="tag" data-i18n="downloads.tag">Descargas</span>
+        <h2 class="section-title" data-i18n="downloads.title">Llévate AquaSmart contigo</h2>
+      </div>
+
+      <div class="downloads-grid">
+        <a href="descargas/AquaSmart.apk" download class="download-card glass reveal">
+          <div class="download-icon"><i class="fa-brands fa-android"></i></div>
+          <h3 data-i18n="dl1.t">Descargar APK</h3>
+          <p data-i18n="dl1.p">Instala la app en tu Android y conéctate al instante.</p>
+          <span class="download-link">v1.0 <i class="fa-solid fa-arrow-down"></i></span>
+        </a>
+
+        <a href="https://github.com/fabriciofacundopabloisrael-png/AquaSmart-App" target="_blank" rel="noopener" class="download-card glass reveal">
+          <div class="download-icon"><i class="fa-brands fa-github"></i></div>
+          <h3 data-i18n="dl2.t">Código Fuente</h3>
+          <p data-i18n="dl2.p">Repositorio completo: firmware, app y esta misma web.</p>
+          <span class="download-link" data-i18n="dl2.link">Ver repositorio <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+        </a>
+
+        <a href="descargas/Manual_AquaSmart.pdf" download class="download-card glass reveal">
+          <div class="download-icon"><i class="fa-solid fa-file-pdf"></i></div>
+          <h3 data-i18n="dl3.t">Manual PDF</h3>
+          <p data-i18n="dl3.p">Guía paso a paso de instalación, configuración y uso.</p>
+          <span class="download-link" data-i18n="dl3.link">Descargar guía <i class="fa-solid fa-arrow-down"></i></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TECNOLOGIAS ============ -->
+  <section class="section section-alt" id="tecnologias">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="tag" data-i18n="tech.tag">Stack</span>
+        <h2 class="section-title" data-i18n="tech.title">Tecnologías utilizadas</h2>
+      </div>
+
+      <div class="tech-grid reveal">
+        <div class="tech-chip"><i class="fa-solid fa-microchip"></i><span>ESP32</span></div>
+        <div class="tech-chip"><i class="fa-brands fa-arduino"></i><span>Arduino IDE</span></div>
+        <div class="tech-chip"><i class="fa-brands fa-android"></i><span>Kotlin</span></div>
+        <div class="tech-chip"><i class="fa-brands fa-html5"></i><span>HTML5</span></div>
+        <div class="tech-chip"><i class="fa-brands fa-css3-alt"></i><span>CSS3</span></div>
+        <div class="tech-chip"><i class="fa-brands fa-js"></i><span>JavaScript</span></div>
+        <div class="tech-chip"><i class="fa-brands fa-github"></i><span>GitHub Pages</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section" id="faq">
+    <div class="section-inner narrow">
+      <div class="section-head reveal">
+        <span class="tag" data-i18n="faq.tag">Dudas frecuentes</span>
+        <h2 class="section-title" data-i18n="faq.title">Preguntas frecuentes</h2>
+      </div>
+
+      <div class="accordion reveal" id="accordion">
+        <div class="accordion-item">
+          <button class="accordion-head">
+            <span data-i18n="faq1.q">¿Necesito internet para usar AquaSmart?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="accordion-body">
+            <p data-i18n="faq1.a">No. El ESP32 crea su propia red WiFi y sirve el panel localmente; el internet solo es útil si quieres acceder también desde tu red de casa.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-head">
+            <span data-i18n="faq2.q">¿Qué necesito para instalarlo?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="accordion-body">
+            <p data-i18n="faq2.a">Un ESP32, un sensor de flujo compatible y unos minutos para conectarlo a la tubería principal. El manual PDF detalla cada paso.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-head">
+            <span data-i18n="faq3.q">¿La app funciona en cualquier Android?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="accordion-body">
+            <p data-i18n="faq3.a">Funciona en Android 8.0 o superior. No requiere Google Play: se instala directamente desde el APK.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-head">
+            <span data-i18n="faq4.q">¿Es un proyecto de código abierto?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="accordion-body">
+            <p data-i18n="faq4.a">Sí. Todo el firmware, la app Android y esta web están disponibles públicamente en GitHub.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA FINAL ============ -->
+  <section class="cta-final">
+    <div class="cta-final-inner reveal">
+      <h2 data-i18n="ctafinal.title">Empieza a cuidar tu agua hoy</h2>
+      <p data-i18n="ctafinal.desc">Descarga la app, conecta tu ESP32 y ve tu consumo en tiempo real.</p>
+      <a href="#apk-hero" class="btn btn-primary btn-lg">
+        <i class="fa-solid fa-download"></i>
+        <span data-i18n="ctafinal.btn">Descargar APK</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-drop"><i class="fa-solid fa-droplet"></i></span>
+      <span class="brand-text">Aqua<strong>Smart</strong></span>
+      <p data-i18n="footer.tag">Monitoreo inteligente del consumo de agua.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4 data-i18n="footer.h1">Proyecto</h4>
+      <a href="https://github.com/fabriciofacundopabloisrael-png/AquaSmart-App" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+      <span data-i18n="footer.version">Versión 1.0</span>
+    </div>
+
+    <div class="footer-col">
+      <h4 data-i18n="footer.h2">Enlaces</h4>
+      <a href="#caracteristicas" data-i18n="nav.features">Características</a>
+      <a href="#descargas" data-i18n="nav.downloads">Descargas</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
+    </div>
+
+    <div class="footer-col">
+      <h4 data-i18n="footer.h3">Autor</h4>
+      <span data-i18n="footer.author">Fabricio Facundo Pablo Israel</span>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© <span id="year"></span> AquaSmart. <span data-i18n="footer.rights">Todos los derechos reservados.</span></span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
